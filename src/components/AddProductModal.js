@@ -29,3 +29,5 @@ const AddProductModal = ({ onClose }) => {
     </div>
   );
 };
+
+export default AddProductModal;

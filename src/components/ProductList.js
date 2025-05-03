@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import { ProductContext, CartContext } from '../context';
+import { ProductContext } from '../context/ProductContext';
+import { CartContext } from '../context/CartContext';
 
 const ProductList = () => {
   const { products } = useContext(ProductContext);
@@ -24,3 +25,5 @@ const ProductList = () => {
     </div>
   );
 };
+
+export default ProductList;

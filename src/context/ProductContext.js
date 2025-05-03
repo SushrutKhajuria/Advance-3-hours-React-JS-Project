@@ -1,33 +1,36 @@
-
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'https://crudcrud.com/api/d919668b711046f698055156928133bf'; 
+const API_URL = 'https://crudcrud.com/api/764d634f2583411287bedbea92788167'; 
 
 export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
- 
   const fetchProducts = async () => {
     try {
       const res = await axios.get(`${API_URL}/products`);
-      setProducts(res.data);
+      setProducts(res.data || []);
     } catch (err) {
-      console.error("Failed to fetch products:", err);
+      console.error("❌ Failed to fetch products:", err.response?.data || err.message);
+      setProducts([]);
     }
   };
 
-  
   const addProduct = async (product) => {
     try {
+      console.log("🔼 Sending to API:", product); 
       const res = await axios.post(`${API_URL}/products`, product);
-      setProducts([...products, res.data]);
-    } catch (err) {
-      console.error("Failed to add product:", err);
+      console.log("✅ API Response:", res.data); 
+      setProducts((prev) => [...prev, res.data]);
+      return true;
+    } catch (error) {
+      console.error("❌ API Error:", error.response?.data || error.message);
+      return false;
     }
   };
+
 
   useEffect(() => {
     fetchProducts();
